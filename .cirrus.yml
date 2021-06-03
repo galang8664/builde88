@@ -10,11 +10,11 @@ task:
     name: aosp 
     timeout_in: 120m 
     container:
-      image: apon77/aosp:latest 
-      cpu: 4  
-      memory: 16G 
+      image: apon77/aosp:cirrus 
+      cpu: 8  
+      memory: 32G 
     download_ccache_background_script:
-      - .#/download_ccache
+      - ./download_ccache
     sync_script:
       - ./sync
     monitor_background_script: 
@@ -22,4 +22,4 @@ task:
     build_script:
       - ./build
     upload_ccache_script:
-      - .#/upload_ccache
+      - ./upload_ccache
