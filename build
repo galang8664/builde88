@@ -1,3 +1,12 @@
+# Telgram env setup
+export BOT_MSG_URL="https://api.telegram.org/bot$API_BOT/sendMessage"
+
+tg_post_msg() {
+ curl -s -X POST "$BOT_MSG_URL" -d chat_id="$2" \
+ -d "parse_mode=html" \
+ -d text="$1"
+}
+
 #!/bin/bash
 cd /tmp/rom 
 
@@ -27,16 +36,12 @@ up(){
 	time rclone copy $1 up:Platina -P
 }
 
-tg(){
-	bot_api=1602913756:AAHEmD1b44yfi06YuAT-VR2cTCaTRx9nmt0
-	your_telegram_id=$1
-	msg=$2 
-	curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=$msg&chat_id=-1001198368066"
+tg(){ 
+	curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=$msg&chat_id=@D4rkKnight21_CI"
 }
-	
-id=1310272071
 
 make_ccache(){
+	tg_post_msg "Start Make Ccache https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" "$CHATID"
 	croot
 	brunch platina &
 	sleep 80m
@@ -45,11 +50,12 @@ make_ccache(){
 }
 
 make_rom(){
+	tg_post_msg "Starting Build https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" "$CHATID"
 	croot
 	brunch platina \
-		&& send_zip=$(up out/target/product/platina/*zip) && tg $id "Build Succeed!
+		&& send_zip=$(up out/target/product/platina/*zip) && tg "Build Succeed!
 	$send_zip" \
-		|| tmate -S /tmp/tmate.sock new-session -d && tmate -S /tmp/tmate.sock wait tmate-ready && send_shell=$(tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}') && tg $id "Build Failed" && tg $id "$send_shell" && ccache -s && sleep 1h
+		|| && tg "Build Failed" && tg $CIRRUS_BUILD_ID && ccache -s && sleep 1h
 	ccache -s
 }
 

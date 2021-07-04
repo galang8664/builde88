@@ -1,3 +1,14 @@
+# Telgram env setup
+export BOT_MSG_URL="https://api.telegram.org/bot$API_BOT/sendMessage"
+
+tg_post_msg() {
+ curl -s -X POST "$BOT_MSG_URL" -d chat_id="$2" \
+ -d "parse_mode=html" \
+ -d text="$1"
+}
+
+tg_post_msg "download ccache" "$CHATID"
+
 #!/bin/bash
 
 df -h
@@ -6,9 +17,11 @@ nproc
 cat /etc/os*
 env
 
-url=https://drive.d4rkknight21.workers.dev/0:/ccache/los/ccache.tar.gz
+url=https://drive.d4rkknight21.workers.dev/0:/ccache/cafex/ccache.tar.gz
 
 cd /tmp 
 time aria2c $url -x16 -s50 
 time tar xf ccache.tar.gz  
 rm -rf ccache.tar.gz 
+
+tg_post_msg "download ccache successful" "$CHATID"

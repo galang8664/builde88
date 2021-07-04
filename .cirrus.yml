@@ -5,6 +5,11 @@ env:
     # For rclone with google drive or any cloud! After first commit pushing, login to https://cirrus-ci.com , click top left corner 3 dot menu, click repository(yourname/aosp-builder) > Repository Settings > Secured Variables > enter content of ~/.config/rclone/rclone.conf (from pc where you setup rclone) > ENCRYPT, copy that ENCRYPTED hash
     # ENCRYPTED variables is unique for every repository, so you cant use my one, create you rclone config https://rclone.org/drive/#making-your-own-client-id
     rclone_config: "ENCRYPTED[80a584ece8a4f07bbfaffd61684a0a427f647ae547b69abe5e41e66b53c96ae83c76f957084f03517042f55b5684ac40]"
+    bot_api: "ENCRYPTED[1d1443b615d49ae8e5b038ab4e7c81f7d312456d9dae38df5ace25b8ebc940061404653b6e1838a4f139d0f972491282]"
+    manifest: "https://github.com/CAF-Extended/manifest"
+    branch: "11.0"
+    local: "https://github.com/D4rkKnight21/local_manifest"
+    localbranch: "cafex"
     
 task:
     name: aosp 
