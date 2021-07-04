@@ -10,25 +10,7 @@ tg_post_msg() {
 #!/bin/bash
 cd /tmp/rom 
 
-source build/envsetup.sh
-export SELINUX_IGNORE_NEVERALLOWS=true
-lunch cafex_platina-userdebug
-export SKIP_API_CHECKS=true
-export SKIP_API_CHECKS=true
-export CCACHE_DIR=/tmp/ccache
-export CCACHE_EXEC=$(which ccache)
-export USE_CCACHE=1
-ccache -M 10G 
-ccache -o compression=true 
-ccache -z 
-
-make_metalava(){
-	tg_post_msg "STARTING MAKE METALAVA" "@D4rkKnight21_ci"
-	make api-stubs-docs || echo no problem
-	make system-api-stubs-docs || echo no problem
-	make test-api-stubs-docs || echo no problem
-	make sepolicy || echo no problem
-}
+source build/envsetup.sh && export SELINUX_IGNORE_NEVERALLOWS=true && lunch cafex_platina-userdebug && export SKIP_API_CHECKS=true && export SKIP_API_CHECKS=true
 
 up(){
 	#curl --upload-file $1 https://transfer.sh/$(basename $1); echo
@@ -41,23 +23,10 @@ tg(){
 	curl -s "https://api.telegram.org/bot"$bot_api"/sendmessage" --data "text=$msg&chat_id=@D4rkKnight21_CI"
 }
 
-make_ccache(){
-	tg_post_msg "Start Make Ccache https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" "@D4rkKnight21_ci"
-	m cafex -j$(nproc --all) &
-	sleep 80m
-	kill %1
-	ccache -s
-}
 
-make_rom(){
-	tg_post_msg "Starting Build https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" "@D4rkKnight21_ci"
-	m cafex -j$(nproc --all) \
-		&& send_zip=$(up out/target/product/platina/*zip) && tg_post_msg "Build Succeed!
-	$send_zip" \
-		|| tg_post_msg "Build Failed" "@D4rkKnight21_ci"
-	ccache -s
-}
+tg_post_msg "Starting Build https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" "@D4rkKnight21_ci"
+make api-stubs-docs && make system-api-stubs-docs && make test-api-stubs-docs && make sepolicy && m cafex -j$(nproc --all)
 
-make_metalava
-make_ccache
-#make_rom
+        && send_zip=$(up out/target/product/platina/*zip) && tg_post_msg "Build Succeed!
+$send_zip" \
+        || tg_post_msg "Build Failed" "@D4rkKnight21_ci"
