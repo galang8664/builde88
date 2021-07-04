@@ -1,10 +1,23 @@
+# Telgram env setup
+export BOT_MSG_URL="https://api.telegram.org/bot$API_BOT/sendMessage"
+
+tg_post_msg() {
+ curl -s -X POST "$BOT_MSG_URL" -d chat_id="$2" \
+ -d "parse_mode=html" \
+ -d text="$1"
+}
+
+tg_post_msg "STARTING SYNC https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" "$CHATID"
+
 #!/bin/bash
 
 mkdir -p /tmp/rom
 cd /tmp/rom
 
-repo init --no-repo-verify --depth=1 -u https://github.com/Lineage-FE/manifest -b lineage-18.1 -g default,-device,-mips,-darwin,-notdefault
-git clone https://github.com/D4rkKnight21/local_manifest.git -b los --depth=1 .repo/local_manifests
+repo init --no-repo-verify --depth=1 -u "$manifest" -b "$branch" -g default,-device,-mips,-darwin,-notdefault
+git clone "$local" -b "$localbranch" --depth=1 .repo/local_manifests
 git config --global user.name "D4rkKnight21"
 git config --global user.email "yusuff8621@gmail.com"
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j$(nproc --all) || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+
+tg_post_msg "SYNC SUCCESSFUL" "$CHATID"
