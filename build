@@ -51,9 +51,9 @@ make_ccache(){
 make_rom(){
 	tg_post_msg "Starting Build https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" "@D4rkKnight21_ci"
 	m cafex -j$(nproc --all) \
-		&& send_zip=$(up out/target/product/platina/*zip) && tg "Build Succeed!
+		&& send_zip=$(up out/target/product/platina/*zip) && tg_post_msg "Build Succeed!
 	$send_zip" \
-		|| && tg "Build Failed" && tg $CIRRUS_BUILD_ID && ccache -s && sleep 1h
+		|| tg_post_msg "Build Failed" "@D4rkKnight21_ci"
 	ccache -s
 }
 
