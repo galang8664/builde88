@@ -12,7 +12,7 @@ env:
     localbranch: "LineageOS-13"
     
 task:
-    name: lineage 
+    name: build 
     timeout_in: 120m 
     container:
       image: apon77/aosp:cirrus 
