@@ -2,7 +2,7 @@
 export BOT_MSG_URL="https://api.telegram.org/bot"$bot_api"/sendMessage"
 
 tg_post_msg() {
- curl -s -X POST "$BOT_MSG_URL" -d chat_id="@D4rkKnight21_ci" \
+ curl -s -X POST "$BOT_MSG_URL" -d chat_id="@Lang64Bot" \
  -d "parse_mode=html" \
  -d text="$1"
 }
@@ -10,9 +10,9 @@ tg_post_msg() {
 #!/bin/bash
 cd /tmp/rom 
 
-source build/envsetup.sh
+. build/envsetup.sh
 export SELINUX_IGNORE_NEVERALLOWS=true
-lunch cafex_platina-userdebug
+brunch lava
 export SKIP_API_CHECKS=true
 export SKIP_API_CHECKS=true
 export CCACHE_DIR=/tmp/ccache
@@ -38,11 +38,11 @@ up(){
 }
 
 tg(){ 
-	curl -s "https://api.telegram.org/bot"$bot_api"/sendmessage" --data "text=$msg&chat_id=@D4rkKnight21_CI"
+	curl -s "https://api.telegram.org/bot"$bot_api"/sendmessage" --data "text=$msg&chat_id=@Lang64Bot"
 }
 
 make_ccache(){
-	tg_post_msg "Start Make Ccache https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" "@D4rkKnight21_ci"
+	tg_post_msg "Start Make Ccache https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" "@Lang64Bot"
 	m cafex -j$(nproc --all) &
 	sleep 80m
 	kill %1
@@ -50,11 +50,11 @@ make_ccache(){
 }
 
 make_rom(){
-	tg_post_msg "Starting Build https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" "@D4rkKnight21_ci"
+	tg_post_msg "Starting Build https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" "@Lang64Bot"
 	m cafex -j$(nproc --all) \
 		&& send_zip=$(up out/target/product/platina/*zip) && tg_post_msg "Build Succeed!
 	$send_zip" \
-		|| tg_post_msg "Build Failed" "@D4rkKnight21_ci"
+		|| tg_post_msg "Build Failed" "@Lang64Bot"
 	ccache -s
 }
 
