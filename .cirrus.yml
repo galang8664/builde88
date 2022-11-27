@@ -4,15 +4,15 @@ env:
 
     # For rclone with google drive or any cloud! After first commit pushing, login to https://cirrus-ci.com , click top left corner 3 dot menu, click repository(yourname/aosp-builder) > Repository Settings > Secured Variables > enter content of ~/.config/rclone/rclone.conf (from pc where you setup rclone) > ENCRYPT, copy that ENCRYPTED hash
     # ENCRYPTED variables is unique for every repository, so you cant use my one, create you rclone config https://rclone.org/drive/#making-your-own-client-id
-    rclone_config: "ENCRYPTED[80a584ece8a4f07bbfaffd61684a0a427f647ae547b69abe5e41e66b53c96ae83c76f957084f03517042f55b5684ac40]"
-    bot_api: "ENCRYPTED[1d1443b615d49ae8e5b038ab4e7c81f7d312456d9dae38df5ace25b8ebc940061404653b6e1838a4f139d0f972491282]"
-    manifest: "https://github.com/CAF-Extended/manifest"
-    branch: "11.0"
-    local: "https://github.com/D4rkKnight21/local_manifest"
-    localbranch: "cafex"
+    rclone_config: "ENCRYPTED[7d0973f64ce65bdf55cd09720298c0a573aaea26a375fa8672b95b6370ba7d0132fe7a16637c66e87a8df7024dd8ccd8]"
+    bot_api: "ENCRYPTED[5533bfbb5e0b66c282eb8d53581e6c9acfe5975311cec1792f51bf2b7b875172689b0a8f27a7f616fb3127aa04d9208e]"
+    manifest: "https://github.com/LineageOS/android.git"
+    branch: "lineage-20.0"
+    local: "https://gitlab.com/R9Lab/Manifest.git"
+    localbranch: "LineageOS-13"
     
 task:
-    name: aosp 
+    name: lineage 
     timeout_in: 120m 
     container:
       image: apon77/aosp:cirrus 
